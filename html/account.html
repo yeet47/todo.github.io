@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Account </title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="shortcut icon" href="/css/favicon.ico" type="image/x-icon">
+    <style media="screen">
+      h1 {
+        text-align: left;
+      }
+      form {
+        text-align: left;
+      }
+      input {
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><img class='avatar' src="{{acc.avatar}}"> Welcome, {{acc.disName}}! </h1>
+    <form action="/add/{{u}}" method="post">
+      <input name="item" placeholder="Type in List Item">
+    </form>
+    <ol id='list'>
+      {% for item in list %}
+      <li> {{item}} <form action="/remove/{{u}}" method='post'>
+          <input type="hidden" name='secret' value="{{ secret }}">
+          <input name="index" type="hidden" value="{{ loop.index0 }}">
+          <input type="submit" value=" X ">
+      </form></li>
+      {% endfor %}
+    </ol>
+  </body>
+</html>

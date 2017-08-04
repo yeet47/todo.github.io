@@ -13,6 +13,8 @@ acc = {yeet: {
   avatar: 'https://image.spreadshirtmedia.com/image-server/v1/mp/compositions/P1001214668MPC1002119703/views/1,width=300,height=300,appearanceId=2,backgroundColor=E8E8E8,version=1485256808/yeet-t-shirts-men-s-t-shirt.jpg',
   disName: 'yeet47'
 }}
+exp = {}
+
 secret = { yeet: 'alakazam' }
 alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.!?'
 
@@ -37,7 +39,7 @@ s.get('/user/:u', function (request, response) {
 
   if (login[u] == null) {
     response.redirect('/join')
-  } else if (secret[u] != userSecret) {
+  } else if (secret[u] != userSecret || exp[u] + 3600000 < Date.now()) {
     response.redirect('/login')
   } else {
     response.send(genUser(u))
@@ -90,9 +92,14 @@ s.post('/login', function (request, response) {
   }
   else {
     secret[u] = genSec()
+    exp[u] = Date.now()
     response.redirect('/user/' + u + '?secret=' + secret[u])
   }
 })
+
+//s.get('/logout/:u', function (request, response) {
+//
+//})
 
 s.get('/join', function (request, response) {
   response.sendFile(__dirname + '/html/join.html')
@@ -111,6 +118,7 @@ s.post('/join', function (request, response) {
   } else {
     login[u] = p
     secret[u] = genSec()
+    exp[u] = Date.now()
     data[u] = []
     acc[u] = {
       name: u,
